@@ -15,6 +15,7 @@ namespace Table
         public string Categoria { set; get; }
         public int Puesto { set; get; }
         public string Zona { set; get; }
+        public int Puntos { get; set; }
     }
 
     public class RequestParticipationRecord

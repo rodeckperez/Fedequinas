@@ -129,7 +129,8 @@ namespace DataBase
                 Grado= row["Grado"].ToString(),
                 Puesto = Int32.Parse(row["Puesto"].ToString()),
                 Feria = row["Feria"].ToString(),
-                Zona = row["ZONA"].ToString()
+                Zona = row["ZONA"].ToString(), 
+                Puntos = Int32.Parse(row["PUNTOS"].ToString())
             };
         }
 
