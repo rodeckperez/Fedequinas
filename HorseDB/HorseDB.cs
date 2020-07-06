@@ -367,6 +367,7 @@ namespace DataBase
                 Node = "",
                 NodeParent = "",
                 Done = 0,
+                WalkCode = row["WalkCode"].ToString(),
                 Photos = new List<Photo>()
             };
         }

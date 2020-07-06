@@ -11,7 +11,7 @@ namespace Table
         public int? PkHorse { set; get; }
         public string Name { set; get; }
         public string Gender { set; get; }
-        public string Walk { set; get; }     
+        public string Walk { set; get; }
         public string UrlMainPhoto { set; get; }
         public bool MyHorse { set; get; }
         public List<Photo> Photos { set; get; }
@@ -30,9 +30,9 @@ namespace Table
         public Horse Father { set; get; }
         public Horse Mother { set; get; }
         public string Node { set; get; }
-        public string NodeParent{ set; get; }
-
+        public string NodeParent { set; get; }
         public int Done { set; get; }
+        public string WalkCode { set; get; }
     }
 
     public class Simulador
