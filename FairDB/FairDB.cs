@@ -42,6 +42,29 @@ namespace DataBase
             return null;
         }
 
+
+        public Fair GetFairsByID(RequestQueryFairDetail query)
+        {
+            this.iDataBase.ConfigExecution(this.ConnectionString, "APP_GetFairByID", CommandType.StoredProcedure);
+            this.iDataBase.AddParameter(DbType.Int32, "FkAccount", 0, ParameterDirection.Input, query.PkAccount, true);
+            this.iDataBase.AddParameter(DbType.Int32, "FkFair", 0, ParameterDirection.Input, query.FkFair, true);
+
+
+            try
+            {
+                this.iDataBase.Query();
+                this.DataBaseActionOk = true;
+                return BuildFair(this.iDataBase.GetDataSet().Tables[0].Rows[0]);
+
+            }
+            catch (Exception e)
+            {
+                this.DataBaseActionOk = false;
+                this.Message = "Error de ejecución en base de datos (FairDB.GetFairs) " + e.Message;
+            }
+
+            return null;
+        }
         public QueryFairs GetFairsByAsociation(RequestQueryFairsByAsociation query)
         {
             this.iDataBase.ConfigExecution(this.ConnectionString, "APP_GetFairsByAsociation", CommandType.StoredProcedure);
@@ -161,7 +184,7 @@ namespace DataBase
         public List<Asociation> GetAsociations()
         {
             this.iDataBase.ConfigExecution(this.ConnectionString, "APP_GetAsociations", CommandType.StoredProcedure);
-            
+
             try
             {
                 this.iDataBase.Query();
@@ -195,7 +218,7 @@ namespace DataBase
             {
                 AsociationCode = row["AsociationCode"].ToString(),
                 Name = row["Name"].ToString(),
-                UrlPhoto = WebConfigurationManager.AppSettings["UrlFotosAsociaciones"]+row["UrlPhoto"].ToString()
+                UrlPhoto = WebConfigurationManager.AppSettings["UrlFotosAsociaciones"] + row["UrlPhoto"].ToString()
             };
         }
 
@@ -203,8 +226,8 @@ namespace DataBase
         {
             return new FairResult()
             {
-                HorseName   =   row["HorseName"].ToString(),
-                PkHorse =   Int32.Parse(row["PkHorse"].ToString()),
+                HorseName = row["HorseName"].ToString(),
+                PkHorse = Int32.Parse(row["PkHorse"].ToString()),
                 Result = row["Result"].ToString(),
             };
         }
@@ -236,7 +259,7 @@ namespace DataBase
             return new FairCategory()
             {
                 Name = row["Name"].ToString(),
-                PkFairCategory  =   Int32.Parse(row["PkFairCategory"].ToString())
+                PkFairCategory = Int32.Parse(row["PkFairCategory"].ToString())
             };
         }
 
@@ -254,11 +277,11 @@ namespace DataBase
             List<Fair> fairs = new List<Fair>();
             foreach (DataRow Row in Rows)
             {
-                if (fairs.Where (x=>x.PkFair == Int32.Parse(Row["PkFair"].ToString())).FirstOrDefault() == null)
+                if (fairs.Where(x => x.PkFair == Int32.Parse(Row["PkFair"].ToString())).FirstOrDefault() == null)
                 {
                     fairs.Add(BuildFair(Row));
                 }
-                
+
             }
 
             return fairs;
@@ -268,18 +291,18 @@ namespace DataBase
         {
             return new Fair()
             {
-                Zona = String.IsNullOrEmpty(row["Zona"].ToString()) == true ? "": row["Zona"].ToString(),
+                Zona = String.IsNullOrEmpty(row["Zona"].ToString()) == true ? "" : row["Zona"].ToString(),
                 Asociation = String.IsNullOrEmpty(row["Asociation"].ToString()) == true ? "" : row["Asociation"].ToString(),
                 EndDate = String.IsNullOrEmpty(row["EndDate"].ToString()) == true ? "" : row["EndDate"].ToString(),
                 Grade = String.IsNullOrEmpty(row["Grade"].ToString()) == true ? "" : row["Grade"].ToString(),
                 Name = row["Name"].ToString(),
                 PkFair = Int32.Parse(row["PkFair"].ToString()),
                 StartDate = String.IsNullOrEmpty(row["StartDate"].ToString()) == true ? "" : row["StartDate"].ToString(),
-                UrlPhoto = WebConfigurationManager.AppSettings["UrlFotosFerias"]+row["UrlPhoto"].ToString(),
-                UploadPhoto = row["UploadPhoto"].ToString().Equals("0") ? false:true
+                UrlPhoto = WebConfigurationManager.AppSettings["UrlFotosFerias"] + row["UrlPhoto"].ToString(),
+                UploadPhoto = row["UploadPhoto"].ToString().Equals("0") ? false : true
             };
         }
 
-        
+
     }
 }

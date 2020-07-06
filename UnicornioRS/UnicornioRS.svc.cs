@@ -62,7 +62,7 @@ namespace RestService
         public BaseResponse<SimpleResponse> ChangePassword(BaseRequest<ChangePassword> request)
         {
             BaseResponse<SimpleResponse> baseResponse = new BaseResponse<SimpleResponse>();
-            var Fields = request.Request.PkAccount.ToString()+request.Request.Password + request.Timestamp.ToString();
+            var Fields = request.Request.PkAccount.ToString() + request.Request.Password + request.Timestamp.ToString();
             if (RequestValidation.ValidateRequest(Fields, request.Token, request.Timestamp))
             {
                 try
@@ -109,7 +109,7 @@ namespace RestService
                     HorseBL bl = new HorseBL();
                     return bl.UploadPhoto(photo.Request);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     baseResponse.BusinessActionOk = false;
                     baseResponse.ServerActionOk = false;
@@ -141,7 +141,7 @@ namespace RestService
         {
             AccountBL accountBl = new AccountBL();
 
-            var Fields = account.Request.Email + account.Request.Password + account.Request.FullName+account.Timestamp;
+            var Fields = account.Request.Email + account.Request.Password + account.Request.FullName + account.Timestamp;
             if (RequestValidation.ValidateRequest(Fields, account.Token, account.Timestamp))
             {
                 return accountBl.InsertAccount(account.Request);
@@ -200,7 +200,7 @@ namespace RestService
         public BaseResponse<Account> ValidateCredentials(BaseRequest<Account> request)
         {
             AccountBL accountBl = new AccountBL();
-            
+
             var Fields = request.Request.Email + request.Request.Password + request.Timestamp;
             if (RequestValidation.ValidateRequest(Fields, request.Token, request.Timestamp))
             {
@@ -211,6 +211,36 @@ namespace RestService
                 if (RequestValidation.ParameterDB.DataBaseActionOk == false)
                 {
                     BaseResponse<Account> baseResponse = new BaseResponse<Account>();
+                    baseResponse.BusinessActionOk = false;
+                    baseResponse.ServerActionOk = false;
+                    baseResponse.Message = RequestValidation.ParameterDB.Message;
+
+                    return baseResponse;
+                }
+                else
+                {
+                    OutgoingWebResponseContext response = WebOperationContext.Current.OutgoingResponse;
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    response.StatusDescription = "";
+                    return null;
+                }
+            }
+        }
+
+        public BaseResponse<Fair> GetFairsByID(BaseRequest<RequestQueryFairDetail> query)
+        {
+            FairBL fairBL = new FairBL();
+
+            var Fields = query.Request.PkAccount.ToString() + query.Request.FkFair.ToString() + query.Timestamp.ToString();
+            if (RequestValidation.ValidateRequest(Fields, query.Token, query.Timestamp))
+            {
+                return fairBL.GetFairByID(query.Request);
+            }
+            else
+            {
+                if (RequestValidation.ParameterDB.DataBaseActionOk == false)
+                {
+                    BaseResponse<Fair> baseResponse = new BaseResponse<Fair>();
                     baseResponse.BusinessActionOk = false;
                     baseResponse.ServerActionOk = false;
                     baseResponse.Message = RequestValidation.ParameterDB.Message;

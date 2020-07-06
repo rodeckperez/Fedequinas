@@ -48,6 +48,10 @@ namespace RestService
         BaseResponse<QueryFairs> GetFairs(BaseRequest<RequestQueryFairs> query);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "/GetFairsByID", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Bare)]
+        BaseResponse<Fair> GetFairsByID(BaseRequest<RequestQueryFairDetail> query);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "/InsertFairPhoto", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Bare)]
         BaseResponse<SimpleResponse> InsertFairPhoto(BaseRequest<FairPhoto> query);
 

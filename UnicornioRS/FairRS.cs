@@ -160,7 +160,8 @@ namespace RestService
             }
         }
 
-        public BaseResponse<List<FairCategory>> GetFairCategories(BaseRequest<GetFairCateogiries> query)
+     
+ public BaseResponse<List<FairCategory>> GetFairCategories(BaseRequest<GetFairCateogiries> query)
         {
             FairBL bl = new FairBL();
             try

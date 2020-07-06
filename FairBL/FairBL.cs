@@ -144,6 +144,29 @@ namespace BusinessRules
             return baseResponse;
         }
 
+        public BaseResponse<Fair> GetFairByID(RequestQueryFairDetail query)
+        {
+            BaseResponse<Fair> baseResponse = new BaseResponse<Fair>();
+            FairDB db = new FairDB(new SqlServer());
+            Fair queryFairs = db.GetFairsByID(query);
+            if (db.DataBaseActionOk)
+            {
+                baseResponse.BusinessActionOk = true;
+                baseResponse.ServerActionOk = true;
+                baseResponse.Message = "";
+                baseResponse.Response = queryFairs;
+            }
+            else
+            {
+                baseResponse.BusinessActionOk = false;
+                baseResponse.ServerActionOk = false;
+                baseResponse.Response = null;
+                baseResponse.Message = db.Message;
+            }
+
+            return baseResponse;
+        }
+
         public BaseResponse<List<FairCategory>> GetFairCategories(GetFairCateogiries getFfair)
         {
             BaseResponse<List<FairCategory>> baseResponse = new BaseResponse<List<FairCategory>>();

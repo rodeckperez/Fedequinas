@@ -33,6 +33,12 @@ namespace Table
         public int FkAccount { set; get; }
     }
 
+    public class RequestQueryFairDetail
+    {
+        public int PkAccount { set; get; }
+        public int FkFair { set; get; }
+    }
+
     public class FairPhoto
     {
         public int FkFair { set; get; }
